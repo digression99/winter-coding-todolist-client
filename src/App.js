@@ -2,29 +2,36 @@ import React, {Component} from 'react';
 import { TodoItem } from './components/molecules';
 import GlobalStyle from './globalStyles';
 
+import {TodoList } from './components/organisms';
+
 class App extends Component {
 
     state = {
-        todoList : [
+        todos : [
             {
                 title : "todo one.",
                 content : "this is todo one.",
-                id : 1
+                id : 1,
+                dateExpire : new Date().getTime() + 10000,
+                dateCreated : new Date().getTime()
             },
             {
                 title : "todo two.",
                 content : "this is todo two.",
-                id : 2
+                id : 2,
+                dateExpire : new Date().getTime() + 20000,
+                dateCreated : new Date().getTime()
             }
         ]
     };
 
     renderTodoList() {
-        return this.state.todoList.map(({ title, content, id }) => (
+        return this.state.todoList.map(({ title, content, id, dateExpire }) => (
             <TodoItem
                 key={id}
                 title={title}
                 content={content}
+                dateExpire={dateExpire}
             />
         ))
     }
@@ -33,7 +40,9 @@ class App extends Component {
 
         return (
             <>
-                {this.renderTodoList()}
+                <TodoList
+                    todos={this.state.todos}
+                />
                 <GlobalStyle />
             </>
         );

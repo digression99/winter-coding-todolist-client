@@ -4,11 +4,13 @@ import Checkbox from '@material-ui/core/Checkbox';
 export default ({
                     isChecked = false,
                     color = "primary",
-                    onChange,
-                    id
+                    onChange
                 }) => (
     <>
         <Checkbox
+            style={{
+                width : '100px'
+            }}
             checked={isChecked}
             color={color}
             onChange={onChange}
