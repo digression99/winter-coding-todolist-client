@@ -3,10 +3,9 @@ import styled from 'styled-components';
 
 import { TodoItem } from '../molecules';
 
-const TodoList = styled.div`
+const TodoList = styled.ul`
   display : flex;
   flex-direction : column;
-  justify-content : space-between;
   width : 100%;
   height : 100%;
 `;

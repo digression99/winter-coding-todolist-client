@@ -7,6 +7,19 @@ const GlobalStyle = createGlobalStyle`
     padding : 0;
     margin : 0;
   }
+  
+  html {
+    background-color : #fff5f5;
+    width : 100%;
+    height : 100%;
+  }
+  
+  body {
+    width : 80%;
+    height : 100%;
+    margin : 0 auto;
+  
+  }
 `;
 
 export default GlobalStyle;

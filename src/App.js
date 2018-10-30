@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Toast from './Toast';
-import { ToastContainer } from 'react-toastify';
 import GlobalStyle from './globalStyles';
 import {TodoList } from './components/organisms';
-import 'react-toastify/dist/ReactToastify.min.css';
+
+import { HomePage } from './components/pages';
 
 class App extends Component {
 
@@ -27,10 +27,9 @@ class App extends Component {
     };
 
     render() {
-
         return (
             <>
-                <TodoList
+                <HomePage
                     todos={this.state.todos}
                 />
                 <GlobalStyle />
@@ -39,5 +38,9 @@ class App extends Component {
         );
     }
 }
+
+{/*<TodoList*/}
+    {/*todos={this.state.todos}*/}
+{/*/>*/}
 
 export default App;

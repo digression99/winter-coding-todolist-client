@@ -5,7 +5,14 @@ import { Checkbox } from '../atoms';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 
-const Wrapper = styled.div`
+const ListItemWrapper = styled.li`
+  list-style-type: none;
+  &:not(:last-child) {
+    margin-bottom : 1rem;
+  }
+`;
+
+const ContentWrapper = styled.div`
   display : flex;
   flex-direction : row;
 `;
@@ -57,50 +64,53 @@ class TodoItem extends Component {
         } = this.props;
 
         return (
-            <Paper>
-                <Wrapper>
-                    <Checkbox
-                        isChecked={isChecked}
-                        color="primary"
-                        onChange={() => {
-                            this.setState(prevState => ({
-                                isChecked : !prevState.isChecked
-                            }));
+            <ListItemWrapper>
+                <Paper>
+                    <ContentWrapper>
+                        <Checkbox
+                            isChecked={isChecked}
+                            color="primary"
+                            onChange={() => {
+                                this.setState(prevState => ({
+                                    isChecked : !prevState.isChecked
+                                }));
 
-                            if (this.state.isChecked === false) {
-                                toastMessage(`${title} completed!`);
-                            }
-                        }}
-                    />
-                    <ButtonBase
-                        style={{
-                            width : '100%',
-                            height : '6rem'
-                        }}
-                    >
-                        <div
+                                if (this.state.isChecked === false) {
+                                    toastMessage(`${title} completed!`);
+                                }
+                            }}
+                        />
+                        <ButtonBase
                             style={{
                                 width : '100%',
-                                display : 'flex',
-                                justifyContent : 'flex-start',
-                                alignItems : 'flex-start',
-                                flexDirection : 'column'
+                                height : '6rem',
+                                paddingLeft : '1rem'
                             }}
                         >
-                            <h2
+                            <div
                                 style={{
-                                    fontSize : '2rem',
+                                    width : '100%',
+                                    display : 'flex',
+                                    justifyContent : 'flex-start',
+                                    alignItems : 'flex-start',
+                                    flexDirection : 'column'
                                 }}
-                            >{title}</h2>
-                            <p
-                                style={{
-                                    fontSize : '1rem'
-                                }}
-                            >{content}</p>
-                        </div>
-                    </ButtonBase>
-                </Wrapper>
-            </Paper>
+                            >
+                                <h2
+                                    style={{
+                                        fontSize : '2rem',
+                                    }}
+                                >{title}</h2>
+                                <p
+                                    style={{
+                                        fontSize : '1rem'
+                                    }}
+                                >{content}</p>
+                            </div>
+                        </ButtonBase>
+                    </ContentWrapper>
+                </Paper>
+            </ListItemWrapper>
         );
     }
 }
