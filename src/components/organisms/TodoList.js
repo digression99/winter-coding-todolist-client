@@ -12,10 +12,10 @@ const TodoList = styled.ul`
 
 export default ({ todos }) => (
     <TodoList>
-        {todos.map(({ id, ...rest }) =>
+        {todos.map(todo =>
             <TodoItem
-                key={id}
-                {...rest}
+                key={todo.id}
+                {...todo}
             />)}
     </TodoList>
 );

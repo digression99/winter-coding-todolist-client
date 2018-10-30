@@ -4,10 +4,10 @@ import 'react-toastify/dist/ReactToastify.min.css';
 
 export default () => (
     <ToastContainer
-        autoClose={false}
+        autoClose={5000}
         closeOnClick={true}
         hideProgressBar={true}
-        position={toast.POSITION.BOTTOM_RIGHT}
+        position={toast.POSITION.BOTTOM_LEFT}
         closeButton={false}
         newestOnTop={true}
     />

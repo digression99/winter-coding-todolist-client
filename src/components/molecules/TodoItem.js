@@ -4,6 +4,7 @@ import {toastMessage} from '../../lib';
 import { Checkbox } from '../atoms';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import { Link } from '../atoms';
 
 const ListItemWrapper = styled.li`
   list-style-type: none;
@@ -80,34 +81,40 @@ class TodoItem extends Component {
                                 }
                             }}
                         />
-                        <ButtonBase
-                            style={{
-                                width : '100%',
-                                height : '6rem',
-                                paddingLeft : '1rem'
-                            }}
+                        <Link
+                            primary
+                            link={`/edit/1`}
                         >
-                            <div
+                            <ButtonBase
                                 style={{
                                     width : '100%',
-                                    display : 'flex',
-                                    justifyContent : 'flex-start',
-                                    alignItems : 'flex-start',
-                                    flexDirection : 'column'
+                                    height : '6rem',
+                                    paddingLeft : '1rem'
                                 }}
+                                onClick={() => console.log(`todo ${title} clicked.`)}
                             >
-                                <h2
+                                <div
                                     style={{
-                                        fontSize : '2rem',
+                                        width : '100%',
+                                        display : 'flex',
+                                        justifyContent : 'flex-start',
+                                        alignItems : 'flex-start',
+                                        flexDirection : 'column'
                                     }}
-                                >{title}</h2>
-                                <p
-                                    style={{
-                                        fontSize : '1rem'
-                                    }}
-                                >{content}</p>
-                            </div>
-                        </ButtonBase>
+                                >
+                                    <h2
+                                        style={{
+                                            fontSize : '2rem',
+                                        }}
+                                    >{title}</h2>
+                                    <p
+                                        style={{
+                                            fontSize : '1rem'
+                                        }}
+                                    >{content}</p>
+                                </div>
+                            </ButtonBase>
+                        </Link>
                     </ContentWrapper>
                 </Paper>
             </ListItemWrapper>

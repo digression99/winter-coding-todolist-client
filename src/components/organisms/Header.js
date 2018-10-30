@@ -21,7 +21,10 @@ const HeaderSubtitle = styled.div`
 export default () => {
     return (
         <Header>
-            <Link link="/">
+            <Link
+                primary
+                link="/"
+            >
                 <HeaderTitle>Two Do List</HeaderTitle>
                 <HeaderSubtitle>Do two things a day</HeaderSubtitle>
             </Link>

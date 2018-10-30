@@ -1,13 +1,34 @@
 import React, {Component} from 'react';
-import styled from 'styled-components';
 
 import Toast from './Toast';
 import GlobalStyle from './globalStyles';
-import {TodoList } from './components/organisms';
 import Routes from './Routes';
 
-import { HomePage } from './components/pages';
+const state = {
+    todos : {
+        byId : {
+            1 : {
+                title : "todo one",
+                content : "this is todo one.",
+                id : 1,
+                dateExpire : new Date().getTime() + 5000,
+                dateCreated : new Date().getTime(),
+                isExpirationNotified : false
+            },
+            2 : {
+                title : "todo two",
+                content : "this is todo two.",
+                id : 2,
+                dateExpire : new Date().getTime() + 10000,
+                dateCreated : new Date().getTime(),
+                isExpirationNotified : false
+            }
+        },
+        allTodos : [
 
+        ]
+    }
+};
 
 class App extends Component {
 
@@ -18,22 +39,46 @@ class App extends Component {
                 content : "this is todo one.",
                 id : 1,
                 dateExpire : new Date().getTime() + 5000,
-                dateCreated : new Date().getTime()
+                dateCreated : new Date().getTime(),
+                isExpirationNotified : false
             },
             {
                 title : "todo two",
                 content : "this is todo two.",
                 id : 2,
                 dateExpire : new Date().getTime() + 10000,
-                dateCreated : new Date().getTime()
+                dateCreated : new Date().getTime(),
+                isExpirationNotified : false
             }
         ]
     };
 
+    onTodoNotification(id) {
+        const todo = this.state.todos.filter(todo => todo.id === id);
+
+        const newState = this.state.todos.map(todo => {
+            if (todo.id === id) {
+                return {
+                    ...todo,
+                    isExpirationNotified : true
+                }
+            } else {
+                return todo;
+            }
+        });
+        this.setState({
+            todos : newState
+        })
+    }
+
     render() {
+
+        const onTodoNotification = this.onTodoNotification.bind(this);
+
         return (
             <>
                 <Routes
+                    onTodoNotification={this.onTodoNotification.bind(this)}
                     todos={this.state.todos}
                 />
                 <GlobalStyle />
@@ -42,9 +87,5 @@ class App extends Component {
         );
     }
 }
-
-{/*<TodoList*/}
-    {/*todos={this.state.todos}*/}
-{/*/>*/}
 
 export default App;

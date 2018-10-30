@@ -11,24 +11,31 @@ const StyledLink = styled(Link)`
   text-decoration : none;
   text-transform : uppercase;
   padding : 15px 40px;
-  &:link, &:visited {
-    color : #777;
-  }
   
-  &:hover {
-    color : #ffa8a8;
-  }
-  
-  &:active {
-    color : #ff8787;
-  
-  }
+  ${props => {
+      if (props.primary) {
+          return `
+            &:link, &:visited {
+                color : #777;
+            }
+            
+            &:hover {
+                color : #ffa8a8;
+            }
+            
+            &:active {
+                color : #ff8787;
+            }
+          `;
+      }
+}}
 `;
 
-export default ({ link, children }) => {
+export default ({ link, children, primary }) => {
     return (
         <StyledLink
             to={link}
+            primary={primary}
         >
             {children}
         </StyledLink>
