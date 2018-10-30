@@ -2,7 +2,7 @@ import React from 'react';
 import { PageTemplate }from '../templates';
 import { TodoList } from '../organisms';
 
-import { Header } from '../organisms';
+import { Header, Footer } from '../organisms';
 
 const HomePage = ({ todos }) => {
     return (
@@ -14,7 +14,6 @@ const HomePage = ({ todos }) => {
                 content={<TodoList
                     todos={todos}
                 />}
-                footer={<footer>This is home page footer.</footer>}
             />
         </div>
     );

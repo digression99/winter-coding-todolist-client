@@ -15,11 +15,6 @@ const HeaderTemplate = styled.div`
   align-items : center;
 `;
 
-const FooterTemplate = styled.div`
-  flex : 2 0 auto;
-  min-height : 5rem;
-`;
-
 const ContentTemplate = styled.div`
   flex : 8 0 auto;
   min-height : 40rem;
@@ -34,9 +29,6 @@ export default ({ header, footer, content }) => {
             <ContentTemplate>
                 {content}
             </ContentTemplate>
-            <FooterTemplate>
-                {footer}
-            </FooterTemplate>
         </PageTemplate>
     );
 };

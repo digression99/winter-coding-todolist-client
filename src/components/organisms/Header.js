@@ -22,8 +22,8 @@ export default () => {
     return (
         <Header>
             <Link link="/">
-                <HeaderTitle>Two Dwo List</HeaderTitle>
-                <HeaderSubtitle>Winter coding assignment</HeaderSubtitle>
+                <HeaderTitle>Two Do List</HeaderTitle>
+                <HeaderSubtitle>Do two things a day</HeaderSubtitle>
             </Link>
         </Header>
     );
