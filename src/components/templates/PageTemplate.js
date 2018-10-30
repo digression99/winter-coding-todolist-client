@@ -10,12 +10,14 @@ const PageTemplate = styled.div`
 
 const HeaderTemplate = styled.div`
   flex : 2 0 auto;
-  min-height : 10rem;
+  min-height : 5rem;
+  justify-content : center;
+  align-items : center;
 `;
 
 const FooterTemplate = styled.div`
   flex : 2 0 auto;
-  min-height : 10rem;
+  min-height : 5rem;
 `;
 
 const ContentTemplate = styled.div`

@@ -2,11 +2,15 @@ import React from 'react';
 import { PageTemplate }from '../templates';
 import { TodoList } from '../organisms';
 
+import { Header } from '../organisms';
+
 const HomePage = ({ todos }) => {
     return (
         <div>
             <PageTemplate
-                header={<header>This is home page header.</header>}
+                header={
+                    <Header />
+                }
                 content={<TodoList
                     todos={todos}
                 />}

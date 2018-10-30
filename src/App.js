@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+
 import Toast from './Toast';
 import GlobalStyle from './globalStyles';
 import {TodoList } from './components/organisms';
+import Routes from './Routes';
+
 
 import { HomePage } from './components/pages';
 
@@ -29,7 +32,7 @@ class App extends Component {
     render() {
         return (
             <>
-                <HomePage
+                <Routes
                     todos={this.state.todos}
                 />
                 <GlobalStyle />

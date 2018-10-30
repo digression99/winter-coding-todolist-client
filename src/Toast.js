@@ -7,7 +7,7 @@ export default () => (
         autoClose={false}
         closeOnClick={true}
         hideProgressBar={true}
-        position={toast.POSITION.BOTTOM_CENTER}
+        position={toast.POSITION.BOTTOM_RIGHT}
         closeButton={false}
         newestOnTop={true}
     />
