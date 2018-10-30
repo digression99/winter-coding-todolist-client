@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import {toastMessage} from '../../lib';
 import { Checkbox } from '../atoms';
+import Paper from '@material-ui/core/Paper';
+import ButtonBase from '@material-ui/core/ButtonBase';
 
 const Wrapper = styled.div`
   display : flex;
@@ -55,25 +57,50 @@ class TodoItem extends Component {
         } = this.props;
 
         return (
-            <Wrapper>
-                <Checkbox
-                    isChecked={isChecked}
-                    color="primary"
-                    onChange={() => {
-                        this.setState(prevState => ({
-                            isChecked : !prevState.isChecked
-                        }));
+            <Paper>
+                <Wrapper>
+                    <Checkbox
+                        isChecked={isChecked}
+                        color="primary"
+                        onChange={() => {
+                            this.setState(prevState => ({
+                                isChecked : !prevState.isChecked
+                            }));
 
-                        if (this.state.isChecked === false) {
-                            toastMessage(`${title} completed!`);
-                        }
-                    }}
-                />
-                <div>
-                    <h2>{title}</h2>
-                    <p>{content}</p>
-                </div>
-            </Wrapper>
+                            if (this.state.isChecked === false) {
+                                toastMessage(`${title} completed!`);
+                            }
+                        }}
+                    />
+                    <ButtonBase
+                        style={{
+                            width : '100%',
+                            height : '6rem'
+                        }}
+                    >
+                        <div
+                            style={{
+                                width : '100%',
+                                display : 'flex',
+                                justifyContent : 'flex-start',
+                                alignItems : 'flex-start',
+                                flexDirection : 'column'
+                            }}
+                        >
+                            <h2
+                                style={{
+                                    fontSize : '2rem',
+                                }}
+                            >{title}</h2>
+                            <p
+                                style={{
+                                    fontSize : '1rem'
+                                }}
+                            >{content}</p>
+                        </div>
+                    </ButtonBase>
+                </Wrapper>
+            </Paper>
         );
     }
 }
