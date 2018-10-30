@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router';
 
 import Toast from './Toast';
 import GlobalStyle from './globalStyles';
@@ -71,15 +72,39 @@ class App extends Component {
         })
     }
 
+    onCreateFormSubmit(title, content) {
+        console.log('create form submitted.');
+        console.log(title, content);
+
+        const nextId = this.state.todos.length + 1;
+        const newTodo = {
+            title,
+            content,
+            id : nextId,
+            dateExpire : new Date().getTime() + 360000,
+            dateCreate : new Date().getTime(),
+            isExpirationNotified : false
+        };
+
+        this.setState((prevState) => {
+            return {
+                todos : [...prevState.todos, newTodo]
+            }
+        });
+        this.props.history.push('/');
+    }
+
     render() {
 
         const onTodoNotification = this.onTodoNotification.bind(this);
+        const onCreateFormSubmit = this.onCreateFormSubmit.bind(this);
 
         return (
             <>
                 <Routes
-                    onTodoNotification={this.onTodoNotification.bind(this)}
+                    onTodoNotification={onTodoNotification}
                     todos={this.state.todos}
+                    onCreateFormSubmit={onCreateFormSubmit}
                 />
                 <GlobalStyle />
                 <Toast />
@@ -88,4 +113,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default withRouter(App);

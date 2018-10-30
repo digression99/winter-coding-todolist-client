@@ -11,6 +11,12 @@ const Footer = styled.div`
   justify-content : center;
   align-items : center;
   background-color : #ffc9c9;
+  padding : 5rem 0;
+`;
+
+const TextArea = styled.div`
+  
+
 `;
 
 const GithubImage = styled.img`
@@ -24,7 +30,6 @@ export default () => {
                 <div>
                     Winter coding assignment
                 </div>
-                <span>By Kim Ilsik</span>
             </div>
             <a href="https://github.com/digression99/winter-coding-todolist-client">
                 <GithubImage src={GithubIcon} alt="github-icon"/>

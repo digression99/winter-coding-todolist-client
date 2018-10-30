@@ -31,7 +31,7 @@ const StyledLink = styled(Link)`
 }}
 `;
 
-export default ({ link, children, primary }) => {
+export default ({ link, children, primary = false }) => {
     return (
         <StyledLink
             to={link}

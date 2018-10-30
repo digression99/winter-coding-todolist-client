@@ -1,13 +1,19 @@
 import React from 'react';
-
+import styled from 'styled-components';
 import { PageTemplate } from '../templates';
 import { Header, Footer } from '../organisms';
 
-const CreatePage = () => {
+import { CreateForm } from '../organisms';
+
+const CreatePage = ({ onSubmit }) => {
     return (
         <PageTemplate
             header={<Header />}
-            content={<div>This is Create page.</div>}
+            content={
+                <CreateForm
+                    onSubmit={onSubmit}
+                />
+            }
             footer={<Footer />}
         />
     );

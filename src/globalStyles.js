@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
     margin : 0;
   }
   
-  html {
+  html, body, #root {
     background-color : #fff5f5;
     width : 100%;
     height : 100%;
