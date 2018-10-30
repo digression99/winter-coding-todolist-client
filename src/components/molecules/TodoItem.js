@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-
+import {toastMessage} from '../../lib';
 import { Checkbox } from '../atoms';
 
 const Wrapper = styled.div`
   display : flex;
   flex-direction : row;
 `;
-
-
 
 class TodoItem extends Component {
 
@@ -17,20 +15,26 @@ class TodoItem extends Component {
         expireTimer : -1
     };
 
+    removeTimer() {
+        if (this.state.expireTimer !== -1) {
+            window.clearInterval(this.state.expireTimer);
+        }
+    }
+
     checkTimeExpired() {
         const time =  this.props.dateExpire - new Date().getTime();
         console.log(`${this.props.title} has remain time : ${time}`);
 
         if (time < 0) {
-            console.log('timer expired.');
-            window.clearInterval(this.state.expireTimer);
+            if (this.state.isChecked === false) {
+                toastMessage(`${this.props.title} has passed expiration time!`);
+            }
+            this.removeTimer();
         }
     }
 
     componentWillUnmount() {
-        if (this.state.expireTimer !== -1) {
-            window.clearInterval(this.state.expireTimer);
-        }
+        this.removeTimer();
     }
 
     componentDidMount() {
@@ -47,8 +51,7 @@ class TodoItem extends Component {
 
         const {
             title,
-            content,
-            dateExpire
+            content
         } = this.props;
 
         return (
@@ -56,13 +59,13 @@ class TodoItem extends Component {
                 <Checkbox
                     isChecked={isChecked}
                     color="primary"
-                    onChange={(e) => {
-                        this.setState((prevState, props) => ({
+                    onChange={() => {
+                        this.setState(prevState => ({
                             isChecked : !prevState.isChecked
                         }));
 
                         if (this.state.isChecked === false) {
-                            console.log('todo completed');
+                            toastMessage(`${title} completed!`);
                         }
                     }}
                 />
