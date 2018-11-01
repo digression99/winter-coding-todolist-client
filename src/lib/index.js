@@ -15,3 +15,6 @@ export const toastMessage = msg => {
             {msg}
         </Wrapper>);
 };
+
+export const getTodo = (todos, id) =>
+    todos.filter(todo => todo.id === parseInt(id))[0];

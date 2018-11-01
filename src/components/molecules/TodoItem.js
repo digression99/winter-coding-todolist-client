@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-
-import {toastMessage} from '../../lib';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+
+import {toastMessage} from '../../lib';
 
 const ListItemWrapper = styled.li`
   list-style-type: none;
@@ -47,6 +47,8 @@ const SubSection = styled.div`
 
 const Title = styled.h2`
   font-size : 2rem;
+  max-width : 30rem;
+  overflow : hidden;
 `;
 
 const Content = styled.p`

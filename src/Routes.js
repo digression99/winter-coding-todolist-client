@@ -17,7 +17,8 @@ const Wrapper = styled.div`
 export default ({
                     todos,
                     onCreateFormSubmit,
-                    onTodoNotification
+                    onTodoNotification,
+                    onEditFormSubmit
                 }) => (
     <Wrapper>
         <Switch>
@@ -27,7 +28,7 @@ export default ({
             />
             <Route
                 path="/edit/:id"
-                component={() => <EditPage/>}
+                component={() => <EditPage todos={todos} onEditFormSubmit={onEditFormSubmit}/>}
             />
             <Route path="/add" component={() => <CreatePage onSubmit={onCreateFormSubmit}/>}
             />
