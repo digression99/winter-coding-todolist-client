@@ -1,6 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
-import { HeaderLink } from "../atoms";
+import { Link } from 'react-router-dom';
+
+const HeaderLink = styled(Link)`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 15px 40px;
+    &:link, &:visited {
+        color: #777;
+    }
+    &:hover {
+        color: #ffa8a8;
+    }
+    &:active {
+        color: #ff8787;
+    }
+`;
 
 const Header = styled.div`
   height : 100%;

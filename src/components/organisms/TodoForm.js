@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import moment from 'moment';
 import _ from 'lodash';
@@ -11,9 +11,10 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import { withStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input'
+import {withStyles} from '@material-ui/core/styles';
 
-import { toastMessage } from "../../lib";
+import {toastMessage} from "../../lib";
 
 const TitleInput = styled.input`
   background-color : transparent;
@@ -49,26 +50,26 @@ const ButtonBox = styled.div`
 class TodoForm extends Component {
 
     state = {
-        title : "",
-        content : "",
-        priority : 1,
-        expirationDate : moment().format('YYYY-MM-DDThh:mm'),
-        isExpirationDateChecked : false,
-        isPriorityChecked : false
+        title: "",
+        content: "",
+        priority: 1,
+        expirationDate: moment().format('YYYY-MM-DDThh:mm'),
+        isExpirationDateChecked: false,
+        isPriorityChecked: false
     };
 
     validate() {
         console.log(this.state);
-        const { title, content, expirationDate, isExpirationDateChecked } = this.state;
+        const {title, content, expirationDate, isExpirationDateChecked} = this.state;
         const error = {};
 
         if (!title || title.length < 1) {
             error.title = "You need to write title.";
         }
 
-        if (!content || content.length < 1) {
-            error.content = "You need to write content.";
-        }
+        // if (!content || content.length < 1) {
+        //     error.content = "You need to write content.";
+        // }
 
         if (isExpirationDateChecked) {
             const expDateTime = moment(expirationDate).valueOf();
@@ -81,7 +82,7 @@ class TodoForm extends Component {
     }
 
     handleChange(name) {
-        return e => this.setState({ [name]: e.target.value || e.target.checked });
+        return e => this.setState({[name]: e.target.value || e.target.checked || ""});
     }
 
     handleSubmit() {
@@ -96,13 +97,13 @@ class TodoForm extends Component {
         } else {
             this.props.onSubmit({
                 ...this.state,
-                expirationDate : moment(this.state.expirationDate).valueOf()
+                expirationDate: moment(this.state.expirationDate).valueOf()
             });
         }
     }
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         const {
             title,
@@ -117,17 +118,19 @@ class TodoForm extends Component {
         const handleChange = this.handleChange.bind(this);
 
         return (
-
             <Form autoComplete="off">
-                <TitleInput
-                    id="todo-title"
-                    type="text"
-                    name="title"
-                    placeholder="title"
-                    value={title}
-                    onChange={handleChange('title')}
-                    required
-                />
+                <FormControl>
+                    <Input
+                        id="todo-title"
+                        component={TitleInput}
+                        className={`${classes.titleInput}`}
+                        placeholder="title"
+                        name="title"
+                        value={title}
+                        onChange={handleChange('title')}
+                        required
+                    />
+                </FormControl>
                 <ContentInput
                     id="todo-content"
                     type="text"
@@ -135,14 +138,14 @@ class TodoForm extends Component {
                     placeholder="contents"
                     value={content}
                     onChange={handleChange('content')}
-                    required
+                    maxLength="100"
                 />
 
                 <FormControl>
                     <div
                         style={{
                             display: 'flex',
-                            justifyContent : 'space-between'
+                            justifyContent: 'space-between'
                         }}
                     >
                         <InputLabel>priority</InputLabel>
@@ -164,36 +167,37 @@ class TodoForm extends Component {
                             />
                         </div>
                     </div>
-                    <div
-                        style={{
-                            display: 'flex',
-                            justifyContent : 'space-between'
-                        }}
-                    >
-                        <TextField
-                            id="todo-expiration-date"
-                            type="datetime-local"
-                            defaultValue={expirationDate}
-                            label="expiration date"
-                            name="expirationDate"
-                            disabled={!isExpirationDateChecked}
-                            onChange={handleChange('expirationDate')}
-                        />
-                        <div>
-                            <Checkbox
-                                checked={isExpirationDateChecked}
-                                color="primary"
-                                onChange={handleChange('isExpirationDateChecked')}
-                            />
-                        </div>
-                    </div>
                 </FormControl>
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <TextField
+                        id="todo-expiration-date"
+                        type="datetime-local"
+                        defaultValue={expirationDate}
+                        label="expiration date"
+                        name="expirationDate"
+                        disabled={!isExpirationDateChecked}
+                        onChange={handleChange('expirationDate')}
+                    />
+                    <div>
+                        <Checkbox
+                            checked={isExpirationDateChecked}
+                            color="primary"
+                            onChange={handleChange('isExpirationDateChecked')}
+                        />
+                    </div>
+                </div>
                 <ButtonBox>
                     <Button
                         component={Link}
                         variant="contained"
                         color="primary"
                         to="/"
+                        size="large"
                     >
                         Cancel
                     </Button>
@@ -202,6 +206,7 @@ class TodoForm extends Component {
                         onClick={handleSubmit}
                         color="secondary"
                         className={`${classes.submitButton}`}
+                        size="large"
                     >
                         Submit
                     </Button>
@@ -212,8 +217,12 @@ class TodoForm extends Component {
 }
 
 const styles = theme => ({
-    submitButton : {
-        marginLeft : '1.5rem'
+    submitButton: {
+        marginLeft: '1.5rem'
+    },
+    titleInput: {
+        fontFamily: 'monospace, Monaco',
+        fontSize: '2rem'
     }
 });
 

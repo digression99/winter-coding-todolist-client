@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import moment from 'moment';
+
 import {toastMessage} from '../../lib';
-import { Checkbox } from '../atoms';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
-
-import { HeaderLink } from "../atoms";
+import { Link } from 'react-router-dom';
 
 const ListItemWrapper = styled.li`
   list-style-type: none;
@@ -18,14 +19,30 @@ const ListItemWrapper = styled.li`
 const DataWrapper = styled.div`
   display : flex;
   flex-direction : row;
+  min-height : 8rem;
 `;
 
 const TodoContent = styled.div`
   display : flex;
-  justify-content : flex-start;
-  align-items : flex-start;
-  flex-direction : column;
+  justify-content : space-evenly;
+  align-items : center;
+  flex-direction : row;
   width : 100%;
+`;
+
+const MainSection = styled.div`
+  flex : 4 0 auto;
+  height : 100%;
+`;
+
+const SubSection = styled.div`
+  flex : 1 0 auto;
+  display : flex;
+  justify-content : center;
+  align-items : flex-end;
+  flex-direction : column;
+  height : 100%;
+  margin-right : 2rem;
 `;
 
 const Title = styled.h2`
@@ -34,6 +51,28 @@ const Title = styled.h2`
 
 const Content = styled.p`
   font-size : 1rem;
+  word-wrap : break-word;
+  overflow : scroll;
+  max-width : 30rem;
+`;
+
+const TodoLink = styled(Link)`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    padding: 15px 40px;
+    
+    &:link, &:visited {
+        color: #777;
+    }
+    &:hover {
+        color: #ffa8a8;
+    }
+    &:active {
+        color: #ff8787;
+    }
 `;
 
 class TodoItem extends Component {
@@ -82,8 +121,14 @@ class TodoItem extends Component {
         };
     }
 
-    render() {
+    renderExpirationDate(date) {
+        if (date === -1) {
+            return "Do it now!";
+        }
+        return moment(date).fromNow()
+    }
 
+    render() {
         const {
             isCompleted
         } = this.state;
@@ -102,25 +147,26 @@ class TodoItem extends Component {
                 <Paper>
                     <DataWrapper>
                         <Checkbox
-                            isChecked={isCompleted}
+                            checked={isCompleted}
                             color="primary"
                             onChange={this.handleCheckboxChange(title)}
+                            className={`${classes.completeCheckbox}`}
                         />
-                        <HeaderLink
+                        <ButtonBase
+                            component={TodoLink}
                             to={`/edit/${id}`}
+                            className={`${classes.buttonBase}`}
                         >
-                            <ButtonBase
-                                className={`${classes.buttonBase}`}
-                                onClick={() => console.log(`todo ${title} clicked.`)}
-                            >
-                                <TodoContent>
+                            <TodoContent>
+                                <MainSection>
                                     <Title>{title}</Title>
                                     <Content>{content}</Content>
-                                    <div>priority :{priority}</div>
-                                    <div>expiration date : {expirationDate}</div>
-                                </TodoContent>
-                            </ButtonBase>
-                        </HeaderLink>
+                                </MainSection>
+                                <SubSection>
+                                    <div>{this.renderExpirationDate(expirationDate)}</div>
+                                </SubSection>
+                            </TodoContent>
+                        </ButtonBase>
                     </DataWrapper>
                 </Paper>
             </ListItemWrapper>
@@ -131,8 +177,11 @@ class TodoItem extends Component {
 const styles = theme => ({
     buttonBase : {
         width : '100%',
-        height : '6rem',
+        // height : '10rem',
         paddingLeft : '1rem'
+    },
+    completeCheckbox : {
+        width : '100px'
     }
 });
 
