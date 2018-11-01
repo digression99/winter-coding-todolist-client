@@ -71,7 +71,9 @@ class TodoForm extends Component {
         }
 
         if (isExpirationDateChecked) {
-            if (moment(expirationDate).valueOf() < new Date().getTime()) {
+            const expDateTime = moment(expirationDate).valueOf();
+            const nowDate = moment().valueOf();
+            if (expDateTime - nowDate < 0) {
                 error.expirationDate = "You can't set expiration date to past.";
             }
         }
@@ -79,9 +81,6 @@ class TodoForm extends Component {
     }
 
     handleChange(name) {
-        if (name === 'expirationDate') {
-            return e => this.setState({ [name] : moment(e.target.value).format('YYYY-MM-DDThh:mm') });
-        }
         return e => this.setState({ [name]: e.target.value || e.target.checked });
     }
 
@@ -104,23 +103,38 @@ class TodoForm extends Component {
 
     render() {
         const { classes } = this.props;
+
+        const {
+            title,
+            content,
+            isPriorityChecked,
+            isExpirationDateChecked,
+            priority,
+            expirationDate
+        } = this.state;
+
+        const handleSubmit = this.handleSubmit.bind(this);
+        const handleChange = this.handleChange.bind(this);
+
         return (
 
-            <Form onSubmit={this.handleSubmit} autoComplete="off">
+            <Form autoComplete="off">
                 <TitleInput
+                    id="todo-title"
                     type="text"
                     name="title"
                     placeholder="title"
-                    value={this.state.title}
-                    onChange={this.handleChange('title')}
+                    value={title}
+                    onChange={handleChange('title')}
                     required
                 />
                 <ContentInput
+                    id="todo-content"
                     type="text"
                     name="content"
                     placeholder="contents"
-                    value={this.state.content}
-                    onChange={this.handleChange('content')}
+                    value={content}
+                    onChange={handleChange('content')}
                     required
                 />
 
@@ -133,9 +147,10 @@ class TodoForm extends Component {
                     >
                         <InputLabel>priority</InputLabel>
                         <Select
-                            value={this.state.priority}
-                            onChange={this.handleChange('priority')}
-                            disabled={!this.state.isPriorityChecked}
+                            id="todo-priority"
+                            value={priority}
+                            onChange={handleChange('priority')}
+                            disabled={!isPriorityChecked}
                         >
                             <MenuItem value={1}>1</MenuItem>
                             <MenuItem value={2}>2</MenuItem>
@@ -143,9 +158,9 @@ class TodoForm extends Component {
                         </Select>
                         <div>
                             <Checkbox
-                                checked={this.state.isPriorityChecked}
+                                checked={isPriorityChecked}
                                 color="primary"
-                                onChange={this.handleChange('isPriorityChecked')}
+                                onChange={handleChange('isPriorityChecked')}
                             />
                         </div>
                     </div>
@@ -156,19 +171,19 @@ class TodoForm extends Component {
                         }}
                     >
                         <TextField
-                            id="expiration-date"
+                            id="todo-expiration-date"
                             type="datetime-local"
-                            defaultValue={this.state.expirationDate}
+                            defaultValue={expirationDate}
                             label="expiration date"
                             name="expirationDate"
-                            disabled={!this.state.isExpirationDateChecked}
-                            onChange={this.handleChange('expirationDate')}
+                            disabled={!isExpirationDateChecked}
+                            onChange={handleChange('expirationDate')}
                         />
                         <div>
                             <Checkbox
-                                checked={this.state.isExpirationDateChecked}
+                                checked={isExpirationDateChecked}
                                 color="primary"
-                                onChange={this.handleChange('isExpirationDateChecked')}
+                                onChange={handleChange('isExpirationDateChecked')}
                             />
                         </div>
                     </div>
@@ -184,7 +199,7 @@ class TodoForm extends Component {
                     </Button>
                     <Button
                         variant="contained"
-                        onClick={this.handleSubmit.bind(this)}
+                        onClick={handleSubmit}
                         color="secondary"
                         className={`${classes.submitButton}`}
                     >

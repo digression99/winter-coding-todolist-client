@@ -4,7 +4,9 @@ import {toastMessage} from '../../lib';
 import { Checkbox } from '../atoms';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import { Link } from '../atoms';
+import { withStyles } from '@material-ui/core/styles';
+
+import { HeaderLink } from "../atoms";
 
 const ListItemWrapper = styled.li`
   list-style-type: none;
@@ -13,15 +15,31 @@ const ListItemWrapper = styled.li`
   }
 `;
 
-const ContentWrapper = styled.div`
+const DataWrapper = styled.div`
   display : flex;
   flex-direction : row;
+`;
+
+const TodoContent = styled.div`
+  display : flex;
+  justify-content : flex-start;
+  align-items : flex-start;
+  flex-direction : column;
+  width : 100%;
+`;
+
+const Title = styled.h2`
+  font-size : 2rem;
+`;
+
+const Content = styled.p`
+  font-size : 1rem;
 `;
 
 class TodoItem extends Component {
 
     state = {
-        isChecked : false,
+        isCompleted : false,
         expireTimer : -1
     };
 
@@ -33,11 +51,11 @@ class TodoItem extends Component {
 
     checkTimeExpired() {
         const time =  this.props.expirationDate - new Date().getTime();
-        // console.log(`${this.props.title} has remain time : ${time}`);
 
         if (time < 0) {
-            if (this.state.isChecked === false) {
+            if (this.state.isCompleted === false && this.props.isExpirationNotified === false) {
                 toastMessage(`${this.props.title} has passed expiration time!`);
+                this.props.onTodoNotification(this.props.id);
             }
             this.removeTimer();
         }
@@ -55,75 +73,67 @@ class TodoItem extends Component {
         }
     }
 
+    handleCheckboxChange(title) {
+        return e => {
+            this.setState({ isCompleted : e.target.checked });
+            if (e.target.checked) {
+                toastMessage(`${title} completed!`);
+            }
+        };
+    }
+
     render() {
 
         const {
-            isChecked
+            isCompleted
         } = this.state;
 
         const {
             title,
             content,
             priority,
-            expirationDate
+            expirationDate,
+            id,
+            classes
         } = this.props;
 
         return (
             <ListItemWrapper>
                 <Paper>
-                    <ContentWrapper>
+                    <DataWrapper>
                         <Checkbox
-                            isChecked={isChecked}
+                            isChecked={isCompleted}
                             color="primary"
-                            onChange={() => {
-                                this.setState(prevState => ({
-                                    isChecked : !prevState.isChecked
-                                }));
-
-                                if (this.state.isChecked === false) {
-                                    toastMessage(`${title} completed!`);
-                                }
-                            }}
+                            onChange={this.handleCheckboxChange(title)}
                         />
-                        <Link
-                            primary
-                            link={`/edit/1`}
+                        <HeaderLink
+                            to={`/edit/${id}`}
                         >
                             <ButtonBase
-                                style={{
-                                    width : '100%',
-                                    height : '6rem',
-                                    paddingLeft : '1rem'
-                                }}
+                                className={`${classes.buttonBase}`}
                                 onClick={() => console.log(`todo ${title} clicked.`)}
                             >
-                                <div
-                                    style={{
-                                        width : '100%',
-                                        display : 'flex',
-                                        justifyContent : 'flex-start',
-                                        alignItems : 'flex-start',
-                                        flexDirection : 'column'
-                                    }}
-                                >
-                                    <h2
-                                        style={{
-                                            fontSize : '2rem',
-                                        }}
-                                    >{title}</h2>
-                                    <p
-                                        style={{
-                                            fontSize : '1rem'
-                                        }}
-                                    >{content}</p>
-                                </div>
+                                <TodoContent>
+                                    <Title>{title}</Title>
+                                    <Content>{content}</Content>
+                                    <div>priority :{priority}</div>
+                                    <div>expiration date : {expirationDate}</div>
+                                </TodoContent>
                             </ButtonBase>
-                        </Link>
-                    </ContentWrapper>
+                        </HeaderLink>
+                    </DataWrapper>
                 </Paper>
             </ListItemWrapper>
         );
     }
 }
 
-export default TodoItem;
+const styles = theme => ({
+    buttonBase : {
+        width : '100%',
+        height : '6rem',
+        paddingLeft : '1rem'
+    }
+});
+
+export default withStyles(styles)(TodoItem);

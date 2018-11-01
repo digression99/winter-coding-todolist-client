@@ -10,10 +10,11 @@ const TodoList = styled.ul`
   height : 100%;
 `;
 
-export default ({ todos }) => (
+export default ({ todos, onTodoNotification }) => (
     <TodoList>
         {todos.map(todo =>
             <TodoItem
+                onTodoNotification={onTodoNotification}
                 key={todo.id}
                 {...todo}
             />)}

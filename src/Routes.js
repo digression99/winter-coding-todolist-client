@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
+import styled from 'styled-components';
 
 import {
     HomePage,
@@ -9,28 +10,26 @@ import {
     TestPage
 } from './components/pages';
 
+const Wrapper = styled.div`
+  height : 100%;
+`;
+
 export default ({
                     todos,
-                    onCreateFormSubmit
+                    onCreateFormSubmit,
+                    onTodoNotification
                 }) => (
-    <div
-        style={{
-            height: '100%'
-        }}
-    >
+    <Wrapper>
         <Switch>
             <Route exact
                    path="/"
-                   component={() => <HomePage todos={todos}/>}
+                   component={() => <HomePage todos={todos} onTodoNotification={onTodoNotification}/>}
             />
-            <Route path="/edit/:id"
-                   component={() => <EditPage/>}
+            <Route
+                path="/edit/:id"
+                component={() => <EditPage/>}
             />
-            <Route path="/add" component={() =>
-                <CreatePage
-                    onSubmit={onCreateFormSubmit}
-
-                />}
+            <Route path="/add" component={() => <CreatePage onSubmit={onCreateFormSubmit}/>}
             />
             <Route
                 path="/test"
@@ -38,5 +37,5 @@ export default ({
             />
             <Route component={NotFoundPage}/>
         </Switch>
-    </div>
+    </Wrapper>
 );

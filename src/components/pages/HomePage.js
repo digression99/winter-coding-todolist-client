@@ -22,7 +22,10 @@ const FloatingButton = styled(Button)`
   left : 1rem;
 `;
 
-const HomePage = ({todos}) => {
+const HomePage = ({
+                      todos,
+                      onTodoNotification
+}) => {
     return (
         <PageTemplate
             header={<Header/>}
@@ -30,6 +33,7 @@ const HomePage = ({todos}) => {
                 <>
                     <TodoList
                         todos={todos}
+                        onTodoNotification={onTodoNotification}
                     />
                     <TodoAddButton />
                 </>

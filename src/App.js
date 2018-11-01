@@ -44,7 +44,9 @@ class App extends Component {
                 id : 1,
                 expirationDate : new Date().getTime() + 5000,
                 dateCreated : new Date().getTime(),
-                isExpirationNotified : false
+                isExpirationNotified : false,
+                isExpirationDateChecked : false,
+                isPriorityChecked : false
             },
             {
                 title : "todo two",
@@ -53,23 +55,22 @@ class App extends Component {
                 id : 2,
                 expirationDate : new Date().getTime() + 10000,
                 dateCreated : new Date().getTime(),
-                isExpirationNotified : false
+                isExpirationNotified : false,
+                isExpirationDateChecked : false,
+                isPriorityChecked : false
             }
         ]
     };
 
     onTodoNotification(id) {
-        const todo = this.state.todos.filter(todo => todo.id === id);
-
         const newState = this.state.todos.map(todo => {
             if (todo.id === id) {
                 return {
                     ...todo,
                     isExpirationNotified : true
                 }
-            } else {
-                return todo;
             }
+            return todo;
         });
         this.setState({
             todos : newState
@@ -84,9 +85,10 @@ class App extends Component {
             title : formData.title,
             content : formData.content,
             id : nextId,
-            expirationDate : new Date().getTime() + 360000,
+            expirationDate : formData.isExpirationDateChecked ? formData.expirationDate : -1,
             dateCreated : new Date().getTime(),
-            isExpirationNotified : false
+            isExpirationNotified : false,
+            priority : formData.isPriorityChecked ? formData.priority : -1
         };
 
         this.setState((prevState) => {
@@ -99,6 +101,10 @@ class App extends Component {
 
     render() {
 
+        const {
+            todos
+        } = this.state;
+
         const onTodoNotification = this.onTodoNotification.bind(this);
         const onCreateFormSubmit = this.onCreateFormSubmit.bind(this);
 
@@ -106,7 +112,7 @@ class App extends Component {
             <>
                 <Routes
                     onTodoNotification={onTodoNotification}
-                    todos={this.state.todos}
+                    todos={todos}
                     onCreateFormSubmit={onCreateFormSubmit}
                 />
                 <GlobalStyle />

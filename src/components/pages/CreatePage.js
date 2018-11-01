@@ -9,11 +9,7 @@ const CreatePage = ({ onSubmit }) => {
         <PageTemplate
             header={<Header />}
             content={
-                <div
-                    style={{
-                        // marginTop : '2rem'
-                    }}
-                >
+                <div>
                     <TodoForm
                         onSubmit={onSubmit}
                     />

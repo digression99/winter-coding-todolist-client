@@ -4,6 +4,7 @@ import TodoAddButton from './TodoAddButton';
 import SubmitButton from './SubmitButton';
 import Button from './Button';
 import CancelButton from './CancelButton';
+import { default as HeaderLink } from './HeaderLink';
 
 export {
     Checkbox,
@@ -11,5 +12,6 @@ export {
     TodoAddButton,
     SubmitButton,
     Button,
-    CancelButton
+    CancelButton,
+    HeaderLink
 };
