@@ -5,33 +5,33 @@ import Toast from './Toast';
 import GlobalStyle from './globalStyles';
 import Routes from './Routes';
 
-const state = {
-    todos : {
-        byId : {
-            1 : {
-                title : "todo one",
-                content : "this is todo one.",
-                id : 1,
-                dateExpire : new Date().getTime() + 5000,
-                dateCreated : new Date().getTime(),
-                isExpirationNotified : false,
-                priority : 1
-            },
-            2 : {
-                title : "todo two",
-                content : "this is todo two.",
-                id : 2,
-                dateExpire : new Date().getTime() + 10000,
-                dateCreated : new Date().getTime(),
-                isExpirationNotified : false,
-                priority : 2
-            }
-        },
-        allTodos : [
-
-        ]
-    }
-};
+// const state = {
+//     todos : {
+//         byId : {
+//             1 : {
+//                 title : "todo one",
+//                 content : "this is todo one.",
+//                 id : 1,
+//                 dateExpire : new Date().getTime() + 5000,
+//                 dateCreated : new Date().getTime(),
+//                 isExpirationNotified : false,
+//                 priority : 1
+//             },
+//             2 : {
+//                 title : "todo two",
+//                 content : "this is todo two.",
+//                 id : 2,
+//                 dateExpire : new Date().getTime() + 10000,
+//                 dateCreated : new Date().getTime(),
+//                 isExpirationNotified : false,
+//                 priority : 2
+//             }
+//         },
+//         allTodos : [
+//
+//         ]
+//     }
+// };
 
 class App extends Component {
 
@@ -40,16 +40,18 @@ class App extends Component {
             {
                 title : "todo one",
                 content : "this is todo one.",
+                priority : 1,
                 id : 1,
-                dateExpire : new Date().getTime() + 5000,
+                expirationDate : new Date().getTime() + 5000,
                 dateCreated : new Date().getTime(),
                 isExpirationNotified : false
             },
             {
                 title : "todo two",
                 content : "this is todo two.",
+                priority : 2,
                 id : 2,
-                dateExpire : new Date().getTime() + 10000,
+                expirationDate : new Date().getTime() + 10000,
                 dateCreated : new Date().getTime(),
                 isExpirationNotified : false
             }
@@ -74,17 +76,16 @@ class App extends Component {
         })
     }
 
-    onCreateFormSubmit(title, content) {
-        console.log('create form submitted.');
-        console.log(title, content);
+    onCreateFormSubmit(formData) {
+        console.log('received data : ', formData);
 
         const nextId = this.state.todos.length + 1;
         const newTodo = {
-            title,
-            content,
+            title : formData.title,
+            content : formData.content,
             id : nextId,
-            dateExpire : new Date().getTime() + 360000,
-            dateCreate : new Date().getTime(),
+            expirationDate : new Date().getTime() + 360000,
+            dateCreated : new Date().getTime(),
             isExpirationNotified : false
         };
 

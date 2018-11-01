@@ -32,8 +32,8 @@ class TodoItem extends Component {
     }
 
     checkTimeExpired() {
-        const time =  this.props.dateExpire - new Date().getTime();
-        console.log(`${this.props.title} has remain time : ${time}`);
+        const time =  this.props.expirationDate - new Date().getTime();
+        // console.log(`${this.props.title} has remain time : ${time}`);
 
         if (time < 0) {
             if (this.state.isChecked === false) {
@@ -48,9 +48,11 @@ class TodoItem extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            expireTimer : setInterval(() => this.checkTimeExpired(), 1000)
-        });
+        if (this.props.expirationDate !== -1) {
+            this.setState({
+                expireTimer : setInterval(() => this.checkTimeExpired(), 1000)
+            });
+        }
     }
 
     render() {
@@ -61,7 +63,9 @@ class TodoItem extends Component {
 
         const {
             title,
-            content
+            content,
+            priority,
+            expirationDate
         } = this.props;
 
         return (

@@ -10,9 +10,8 @@ const Wrapper = styled.div`
 `;
 
 export const toastMessage = msg => {
-    toast(<Wrapper
-
-    >
-        {msg}
-    </Wrapper>);
+    toast(
+        <Wrapper>
+            {msg}
+        </Wrapper>);
 };

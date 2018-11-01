@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { PageTemplate } from '../templates';
 import { Header, Footer } from '../organisms';
 
@@ -12,7 +11,7 @@ const CreatePage = ({ onSubmit }) => {
             content={
                 <div
                     style={{
-                        marginTop : '3rem'
+                        // marginTop : '2rem'
                     }}
                 >
                     <TodoForm

@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledLink = styled(Link)`
-  display : flex;
-  flex-direction : column;
-  justify-content : center;
-  align-items : center;
-
-  text-decoration : none;
-  text-transform : uppercase;
-  padding : 15px 40px;
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding: 15px 40px;
   
   ${props => {
       if (props.primary) {
