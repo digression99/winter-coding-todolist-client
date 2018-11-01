@@ -14,7 +14,8 @@ const state = {
                 id : 1,
                 dateExpire : new Date().getTime() + 5000,
                 dateCreated : new Date().getTime(),
-                isExpirationNotified : false
+                isExpirationNotified : false,
+                priority : 1
             },
             2 : {
                 title : "todo two",
@@ -22,7 +23,8 @@ const state = {
                 id : 2,
                 dateExpire : new Date().getTime() + 10000,
                 dateCreated : new Date().getTime(),
-                isExpirationNotified : false
+                isExpirationNotified : false,
+                priority : 2
             }
         },
         allTodos : [

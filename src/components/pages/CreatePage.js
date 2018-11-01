@@ -3,16 +3,22 @@ import styled from 'styled-components';
 import { PageTemplate } from '../templates';
 import { Header, Footer } from '../organisms';
 
-import { CreateForm } from '../organisms';
+import { TodoForm } from '../organisms';
 
 const CreatePage = ({ onSubmit }) => {
     return (
         <PageTemplate
             header={<Header />}
             content={
-                <CreateForm
-                    onSubmit={onSubmit}
-                />
+                <div
+                    style={{
+                        marginTop : '3rem'
+                    }}
+                >
+                    <TodoForm
+                        onSubmit={onSubmit}
+                    />
+                </div>
             }
             footer={<Footer />}
         />

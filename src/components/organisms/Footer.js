@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Link } from '../atoms';
-
 import GithubIcon from '../../resources/icons/github-icon.png';
 
 const Footer = styled.div`
@@ -12,11 +10,6 @@ const Footer = styled.div`
   align-items : center;
   background-color : #ffc9c9;
   padding : 5rem 0;
-`;
-
-const TextArea = styled.div`
-  
-
 `;
 
 const GithubImage = styled.img`
@@ -37,9 +30,3 @@ export default () => {
         </Footer>
     );
 };
-
-{/*<Link*/}
-{/*link="https://www.github.com/digression99"*/}
-{/*>*/}
-{/*<img src={GithubIcon} alt="github-icon"/>*/}
-{/*</Link>*/}

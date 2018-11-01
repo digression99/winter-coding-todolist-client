@@ -5,7 +5,8 @@ import {
     HomePage,
     EditPage,
     NotFoundPage,
-    CreatePage
+    CreatePage,
+    TestPage
 } from './components/pages';
 
 export default ({
@@ -30,6 +31,10 @@ export default ({
                     onSubmit={onCreateFormSubmit}
 
                 />}
+            />
+            <Route
+                path="/test"
+                component={TestPage}
             />
             <Route component={NotFoundPage}/>
         </Switch>

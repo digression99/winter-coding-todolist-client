@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { SubmitButton } from '../atoms';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
+import { withStyles} from '@material-ui/core/styles';
 
 const TitleInput = styled.input`
   background-color : transparent;
@@ -18,6 +20,7 @@ const ContentInput = styled.textarea`
   width : 100%;
   min-height : 10rem;
   font-size : 1.2rem;
+  resize : none;
 `;
 
 const Form = styled.form`
@@ -25,11 +28,18 @@ const Form = styled.form`
   flex-direction : column;
 `;
 
-class CreateForm extends Component {
+const ButtonBox = styled.div`
+  display : flex;
+  justify-content : flex-end;
+`;
+
+class TodoForm extends Component {
 
     state = {
         title : "",
-        content : ""
+        content : "",
+        priority : 1,
+        dateExpire : null
     };
 
     handleSubmit(e) {
@@ -54,6 +64,7 @@ class CreateForm extends Component {
     }
 
     render() {
+        const { classes } = this.props;
         return (
             <Form onSubmit={this.handleSubmit}>
                 <TitleInput
@@ -70,14 +81,36 @@ class CreateForm extends Component {
                     value={this.state.content}
                     onChange={this.handleContentChange.bind(this)}
                 />
-                <div>
-                    <SubmitButton
-                        onSubmit={() => this.props.onSubmit(this.state.title, this.state.content)}
-                    />
-                </div>
+                <ButtonBox>
+                    <Link to="/">
+                        <Button
+                            variant="contained"
+                            disabled={false}
+                            color="primary"
+                        >
+                            Cancel
+                        </Button>
+                    </Link>
+                    <Button
+                        variant="contained"
+                        onClick={() =>
+                            this.props.onSubmit(this.state.title, this.state.content)}
+                        isDisabled={false}
+                        color="secondary"
+                        className={`${classes.submitButton}`}
+                    >
+                        Submit
+                    </Button>
+                </ButtonBox>
             </Form>
         );
     }
 }
 
-export default CreateForm;
+const styles = theme => ({
+    submitButton : {
+        marginLeft : '1.5rem'
+    }
+});
+
+export default withStyles(styles)(TodoForm);

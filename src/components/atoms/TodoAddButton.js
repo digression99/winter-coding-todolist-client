@@ -1,10 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import styled, { css }from 'styled-components';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
-// import { Link } from '../atoms';
 
 const FixedLink = styled(Link)`
   position : fixed;

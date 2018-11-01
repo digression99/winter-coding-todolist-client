@@ -1,11 +1,11 @@
 import TodoList from './TodoList';
 import Header from './Header';
 import Footer from './Footer';
-import CreateForm from './CreateForm';
+import TodoForm from './TodoForm';
 
 export {
     TodoList,
     Header,
     Footer,
-    CreateForm
+    TodoForm
 };
