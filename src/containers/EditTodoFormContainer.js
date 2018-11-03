@@ -1,11 +1,16 @@
 import React from 'react';
-import { withRouter, Redirect } from 'react-router';
+import {withRouter, Redirect} from 'react-router';
 import _ from 'lodash';
 
-import { TodoForm } from '../components/organisms';
-import { getTodo } from "../lib";
+import {TodoForm} from '../components/organisms';
+import {getTodo} from "../lib";
 
-const EditTodoFormContainer = ({ todos, match : { params }, onEditFormSubmit }) => {
+const EditTodoFormContainer = ({
+                                   todos,
+                                   match: {params},
+                                   onEditFormSubmit,
+                                   onDeleteTodo
+                               }) => {
     const dat = getTodo(todos, params.id);
 
     if (_.isEmpty(dat)) {
@@ -22,6 +27,7 @@ const EditTodoFormContainer = ({ todos, match : { params }, onEditFormSubmit }) 
                 {...dat}
                 updateId={params.id}
                 onSubmit={onEditFormSubmit}
+                onDeleteTodo={onDeleteTodo}
             />
         </div>
     );

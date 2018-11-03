@@ -6,12 +6,9 @@ import {TodoAddButton} from '../molecules';
 
 const HomePage = ({
                       todos,
-                      onTodoNotification
+                      onTodoNotification,
+                      onCompleteCheckClick
                   }) => {
-
-    console.log('todos : ', todos);
-
-
     return (
         <PageTemplate
             header={<Header/>}
@@ -20,6 +17,7 @@ const HomePage = ({
                     <TodoList
                         todos={todos}
                         onTodoNotification={onTodoNotification}
+                        onCompleteCheckClick={onCompleteCheckClick}
                     />
                     <TodoAddButton/>
                 </>

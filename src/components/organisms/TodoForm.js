@@ -45,15 +45,11 @@ const Form = styled.form`
 
 const ButtonBox = styled.div`
   display : flex;
-  justify-content : flex-end;
   margin-top : 1rem;
+  width : 100%;
 `;
 
 class TodoForm extends Component {
-
-    componentDidMount() {
-        console.log('props : ', this.props);
-    }
 
     constructor(props) {
         super(props);
@@ -61,7 +57,9 @@ class TodoForm extends Component {
             title,
             content,
             priority,
-            expirationDate
+            expirationDate,
+            isCompleted,
+            isExpirationNotified
         } = this.props;
 
         this.state = {
@@ -71,12 +69,11 @@ class TodoForm extends Component {
             expirationDate : (expirationDate !== -1 && moment(expirationDate).format('YYYY-MM-DDTHH:mm')) || moment().format('YYYY-MM-DDTHH:mm'),
             isExpirationDateChecked : (expirationDate && expirationDate !== -1 && true) || false,
             isPriorityChecked: (priority && priority !== -1 && true) || false,
-        }
-
-        console.log('constructed. state : ', this.state);
+            isCompleted : isCompleted || false,
+            isExpirationNotified : isExpirationNotified || false
+        };
     }
     validate() {
-        console.log("validation state : ", this.state);
         const {title, expirationDate, isExpirationDateChecked} = this.state;
         const error = {};
 
@@ -95,39 +92,63 @@ class TodoForm extends Component {
         return error;
     }
 
+    // componentDidUpdate(prevProps, prevState) {
+    //     console.log('form state : ', this.state);
+    // }
+
     handleChange(name) {
-        return e => this.setState({[name]: e.target.value || e.target.checked || ""});
+        return e => {
+            let val = e.target.value || e.target.checked;
+
+            if (val === undefined) {
+                val = "";
+            }
+            this.setState({[name]: val});
+        };
     }
 
     handleSubmit() {
         const error = this.validate();
-        const {
-            isExpirationDateChecked,
-            isPriorityChecked,
-            priority,
-            expirationDate
-        } = this.state;
 
         if (!_.isEmpty(error)) {
-            console.log('error occured.');
-            console.log(error);
             for (let dat in error) {
                 toastMessage(error[dat]);
             }
         } else {
-            const expDate = (isExpirationDateChecked && moment(expirationDate).valueOf()) || -1;
-            const priority = (isPriorityChecked && priority) || -1;
+            const {
+                isExpirationDateChecked,
+                isPriorityChecked,
+                priority,
+                expirationDate,
+                isCompleted
+            } = this.state;
 
-            this.props.onSubmit({
+            const {
+                onSubmit,
+                updateId
+            } = this.props;
+
+            const expDate = (isExpirationDateChecked && moment(expirationDate).valueOf()) || -1;
+            const prty = (isPriorityChecked && priority) || -1;
+
+            onSubmit({
                 ...this.state,
                 expirationDate: expDate,
-                priority
-            }, this.props.updateId);
+                priority : prty
+            }, parseInt(updateId));
         }
     }
 
+    onDeleteButtonClick() {
+        const {
+            onDeleteTodo,
+            updateId
+        } = this.props;
+        onDeleteTodo(parseInt(updateId));
+    }
+
     render() {
-        const {classes} = this.props;
+        const { classes, updateId } = this.props;
 
         const {
             title,
@@ -135,11 +156,12 @@ class TodoForm extends Component {
             isPriorityChecked,
             isExpirationDateChecked,
             priority,
-            expirationDate
+            expirationDate,
         } = this.state;
 
         const handleSubmit = this.handleSubmit.bind(this);
         const handleChange = this.handleChange.bind(this);
+        const onDeleteButtonClick = this.onDeleteButtonClick.bind(this);
 
         return (
             <Form autoComplete="off">
@@ -209,24 +231,52 @@ class TodoForm extends Component {
                     </div>
                 </FormControl>
                 <ButtonBox>
-                    <Button
-                        component={Link}
-                        variant="contained"
-                        color="primary"
-                        to="/"
-                        size="large"
+                    {
+                        updateId && (
+                            <div
+                                style={{
+                                    display : 'flex',
+                                    flex : '1 1 auto',
+                                    justifyContent : 'flex-start'
+                                }}
+                            >
+                                <Button
+                                    variant="contained"
+                                    color="default"
+                                    size="large"
+                                    onClick={onDeleteButtonClick}
+                                >
+                                    Delete
+                                </Button>
+                            </div>
+                        )
+                    }
+                    <div
+                        style={{
+                            display : 'flex',
+                            flex : '1 1 auto',
+                            justifyContent : 'flex-end'
+                        }}
                     >
-                        Cancel
-                    </Button>
-                    <Button
-                        variant="contained"
-                        onClick={handleSubmit}
-                        color="secondary"
-                        className={`${classes.submitButton}`}
-                        size="large"
-                    >
-                        Submit
-                    </Button>
+                        <Button
+                            component={Link}
+                            variant="contained"
+                            color="primary"
+                            to="/"
+                            size="large"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={handleSubmit}
+                            color="secondary"
+                            className={`${classes.button}`}
+                            size="large"
+                        >
+                            Submit
+                        </Button>
+                    </div>
                 </ButtonBox>
             </Form>
         );
@@ -234,7 +284,7 @@ class TodoForm extends Component {
 }
 
 const styles = theme => ({
-    submitButton: {
+    button: {
         marginLeft: '1.5rem'
     },
     titleInput: {

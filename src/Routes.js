@@ -7,7 +7,8 @@ import {
     EditPage,
     NotFoundPage,
     CreatePage,
-    TestPage
+    TestPage,
+    TestSecondPage
 } from './components/pages';
 
 const Wrapper = styled.div`
@@ -18,23 +19,37 @@ export default ({
                     todos,
                     onCreateFormSubmit,
                     onTodoNotification,
-                    onEditFormSubmit
+                    onEditFormSubmit,
+                    onDeleteTodo,
+                    onCompleteCheckClick
                 }) => (
     <Wrapper>
         <Switch>
             <Route exact
                    path="/"
-                   component={() => <HomePage todos={todos} onTodoNotification={onTodoNotification}/>}
+                   component={() => <HomePage
+                       todos={todos}
+                       onTodoNotification={onTodoNotification}
+                       onCompleteCheckClick={onCompleteCheckClick}
+                   />}
             />
             <Route
                 path="/edit/:id"
-                component={() => <EditPage todos={todos} onEditFormSubmit={onEditFormSubmit}/>}
+                component={() => <EditPage
+                    todos={todos}
+                    onEditFormSubmit={onEditFormSubmit}
+                    onDeleteTodo={onDeleteTodo}
+                />}
             />
             <Route path="/add" component={() => <CreatePage onSubmit={onCreateFormSubmit}/>}
             />
             <Route
-                path="/test"
+                path="/test/1"
                 component={TestPage}
+            />
+            <Route
+                path="/test/2"
+                component={TestSecondPage}
             />
             <Route component={NotFoundPage}/>
         </Switch>

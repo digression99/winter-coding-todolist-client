@@ -6,6 +6,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { lighten } from 'polished';
 
 import {toastMessage} from '../../lib';
 
@@ -22,6 +23,12 @@ const DataWrapper = styled.div`
   min-height : 8rem;
 `;
 
+const priorityColors = {
+    1 : '#fa5252',
+    2 : '#fcc419',
+    3 : '#94d82d'
+};
+
 const TodoContent = styled.div`
   display : flex;
   justify-content : space-evenly;
@@ -30,16 +37,12 @@ const TodoContent = styled.div`
   width : 100%;
   
   color: ${props => {
-    switch (props.priority) {
-        case 1:
-            return '#fa5252';
-        case 2:
-            return '#fcc419';
-        case 3:
-            return '#c0eb75';
-        default:
-            return '#777';
-    }
+      let color = '#777';
+      
+      if (priorityColors.hasOwnProperty(props.priority)) {
+          color = priorityColors[props.priority];
+      }
+      return lighten(props.checkedOpacity, color);
   }}
 `;
 
@@ -94,7 +97,6 @@ const TodoLink = styled(Link)`
 class TodoItem extends Component {
 
     state = {
-        isCompleted : false,
         expireTimer : -1
     };
 
@@ -105,12 +107,14 @@ class TodoItem extends Component {
     }
 
     checkTimeExpired() {
-        const time =  this.props.expirationDate - new Date().getTime();
+        const { expirationDate, isCompleted, isExpirationNotified, onTodoNotification, id, title } = this.props;
+
+        const time =  expirationDate - new Date().getTime();
 
         if (time < 0) {
-            if (this.state.isCompleted === false && this.props.isExpirationNotified === false) {
-                toastMessage(`${this.props.title} has passed expiration time!`);
-                this.props.onTodoNotification(this.props.id);
+            if (isCompleted === false && isExpirationNotified === false) {
+                toastMessage(`\"${title}\" has passed expiration time!`);
+                onTodoNotification(id);
             }
             this.removeTimer();
         }
@@ -121,6 +125,10 @@ class TodoItem extends Component {
     }
 
     componentDidMount() {
+        console.log('component did mount.');
+        console.log('title : ', this.props.title);
+        console.log(this.props.expirationDate);
+
         if (this.props.expirationDate !== -1) {
             this.setState({
                 expireTimer : setInterval(() => this.checkTimeExpired(), 1000)
@@ -128,26 +136,15 @@ class TodoItem extends Component {
         }
     }
 
-    handleCheckboxChange(title) {
-        return e => {
-            this.setState({ isCompleted : e.target.checked });
-            if (e.target.checked) {
-                toastMessage(`${title} completed!`);
-            }
-        };
+    handleCheckboxChange(id) {
+        this.props.onCompleteCheckClick(id);
     }
 
     renderExpirationDate(date) {
-        if (date === -1) {
-            return "Do it now!";
-        }
-        return moment(date).fromNow()
+        return date === -1 ? "Do it now!" : moment(date).fromNow();
     }
 
     render() {
-        const {
-            isCompleted
-        } = this.state;
 
         const {
             title,
@@ -155,6 +152,7 @@ class TodoItem extends Component {
             priority,
             expirationDate,
             id,
+            isCompleted,
             classes
         } = this.props;
 
@@ -165,7 +163,7 @@ class TodoItem extends Component {
                         <Checkbox
                             checked={isCompleted}
                             color="primary"
-                            onChange={this.handleCheckboxChange(title)}
+                            onChange={() => this.handleCheckboxChange(parseInt(id))}
                             className={`${classes.completeCheckbox}`}
                         />
                         <ButtonBase
@@ -175,6 +173,7 @@ class TodoItem extends Component {
                         >
                             <TodoContent
                                 priority={priority}
+                                checkedOpacity={isCompleted ? 0.25 : 0}
                             >
                                 <MainSection>
                                     <Title>{title}</Title>
