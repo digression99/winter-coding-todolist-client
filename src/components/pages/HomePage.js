@@ -2,12 +2,12 @@ import React from 'react';
 import {PageTemplate} from '../templates';
 import {TodoList} from '../organisms';
 import {Header, Footer} from '../organisms';
-import { TodoAddButton } from '../molecules';
+import {TodoAddButton} from '../molecules';
 
 const HomePage = ({
                       todos,
                       onTodoNotification
-}) => {
+                  }) => {
 
     console.log('todos : ', todos);
 
@@ -21,12 +21,14 @@ const HomePage = ({
                         todos={todos}
                         onTodoNotification={onTodoNotification}
                     />
-                    <TodoAddButton />
+                    <TodoAddButton/>
                 </>
             }
             footer={<Footer/>}
         />
     );
 };
+
+HomePage.displayName = "HomePage";
 
 export default HomePage;

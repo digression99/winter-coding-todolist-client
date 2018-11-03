@@ -21,7 +21,7 @@ const HeaderLink = styled(Link)`
     }
 `;
 
-const Header = styled.div`
+const Wrapper = styled.div`
   height : 100%;
   display : flex;
   justify-content: center;
@@ -36,15 +36,19 @@ const HeaderSubtitle = styled.div`
   letter-spacing : 1px;
 `;
 
-export default () => {
+const Header = () => {
     return (
-        <Header>
+        <Wrapper>
             <HeaderLink
                 to="/"
             >
                 <HeaderTitle>Two Do List</HeaderTitle>
                 <HeaderSubtitle>Do two things a day</HeaderSubtitle>
             </HeaderLink>
-        </Header>
+        </Wrapper>
     );
 };
+
+Header.displayName = "Header";
+
+export default Header;

@@ -68,13 +68,15 @@ class TodoForm extends Component {
             title : title || "",
             content : content || "",
             priority : (priority && priority !== -1 && priority) || 1,
-            expirationDate : (expirationDate !== -1 && moment(expirationDate).format('YYYY-MM-DDTHH:mm')) || moment().format('YYYY-MM-DDTHH:mm a'),
+            expirationDate : (expirationDate !== -1 && moment(expirationDate).format('YYYY-MM-DDTHH:mm')) || moment().format('YYYY-MM-DDTHH:mm'),
             isExpirationDateChecked : (expirationDate && expirationDate !== -1 && true) || false,
             isPriorityChecked: (priority && priority !== -1 && true) || false,
         }
+
+        console.log('constructed. state : ', this.state);
     }
     validate() {
-        console.log(this.state);
+        console.log("validation state : ", this.state);
         const {title, expirationDate, isExpirationDateChecked} = this.state;
         const error = {};
 
@@ -101,6 +103,8 @@ class TodoForm extends Component {
         const error = this.validate();
         const {
             isExpirationDateChecked,
+            isPriorityChecked,
+            priority,
             expirationDate
         } = this.state;
 
@@ -112,10 +116,12 @@ class TodoForm extends Component {
             }
         } else {
             const expDate = (isExpirationDateChecked && moment(expirationDate).valueOf()) || -1;
+            const priority = (isPriorityChecked && priority) || -1;
 
             this.props.onSubmit({
                 ...this.state,
-                expirationDate: expDate
+                expirationDate: expDate,
+                priority
             }, this.props.updateId);
         }
     }

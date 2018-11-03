@@ -5,12 +5,13 @@ const PageTemplate = styled.div`
   display : flex;
   flex-direction : column;
   width : inherit;
-  height : inherit;
+  height : 100%;
 `;
 
 const HeaderTemplate = styled.div`
   flex : 2 0 auto;
-  min-height : 8rem;
+  min-height : 7rem;
+  display : flex;
   justify-content : center;
   align-items : center;
 `;

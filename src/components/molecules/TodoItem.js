@@ -28,6 +28,19 @@ const TodoContent = styled.div`
   align-items : center;
   flex-direction : row;
   width : 100%;
+  
+  color: ${props => {
+    switch (props.priority) {
+        case 1:
+            return '#fa5252';
+        case 2:
+            return '#fcc419';
+        case 3:
+            return '#c0eb75';
+        default:
+            return '#777';
+    }
+  }}
 `;
 
 const MainSection = styled.div`
@@ -47,15 +60,16 @@ const SubSection = styled.div`
 
 const Title = styled.h2`
   font-size : 2rem;
-  max-width : 30rem;
+  max-width : 25rem;
   overflow : hidden;
+  text-transform : uppercase;
 `;
 
 const Content = styled.p`
   font-size : 1rem;
   word-wrap : break-word;
   overflow : scroll;
-  max-width : 30rem;
+  max-width : 25rem;
 `;
 
 const TodoLink = styled(Link)`
@@ -67,7 +81,7 @@ const TodoLink = styled(Link)`
     padding: 15px 40px;
     
     &:link, &:visited {
-        color: #777;
+      color : #777;
     }
     &:hover {
         color: #ffa8a8;
@@ -159,7 +173,9 @@ class TodoItem extends Component {
                             to={`/edit/${id}`}
                             className={`${classes.buttonBase}`}
                         >
-                            <TodoContent>
+                            <TodoContent
+                                priority={priority}
+                            >
                                 <MainSection>
                                     <Title>{title}</Title>
                                     <Content>{content}</Content>
@@ -179,7 +195,6 @@ class TodoItem extends Component {
 const styles = theme => ({
     buttonBase : {
         width : '100%',
-        // height : '10rem',
         paddingLeft : '1rem'
     },
     completeCheckbox : {

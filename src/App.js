@@ -10,8 +10,8 @@ class App extends Component {
     state = {
         todos: [
             {
-                title: "todo one",
-                content: "this is todo one.",
+                title: "priority one.",
+                content: "this is priority one.",
                 priority: 1,
                 id: 1,
                 expirationDate: new Date().getTime() + 5000,
@@ -21,8 +21,8 @@ class App extends Component {
                 isPriorityChecked: false
             },
             {
-                title: "todo two",
-                content: "this is todo two.",
+                title: "priority two",
+                content: "this is priority two.",
                 priority: 2,
                 id: 2,
                 expirationDate: new Date().getTime() + 10000,
@@ -30,7 +30,40 @@ class App extends Component {
                 isExpirationNotified: false,
                 isExpirationDateChecked: false,
                 isPriorityChecked: false
-            }
+            },
+            {
+                title: "priority three",
+                content: "this is priority three.",
+                priority: 3,
+                id: 3,
+                expirationDate: new Date().getTime() + 20000,
+                dateCreated: new Date().getTime(),
+                isExpirationNotified: false,
+                isExpirationDateChecked: false,
+                isPriorityChecked: false
+            },
+            {
+                title: "no priority",
+                content: "This is no priority",
+                priority: -1,
+                id: 4,
+                expirationDate: new Date().getTime() + 20000,
+                dateCreated: new Date().getTime(),
+                isExpirationNotified: false,
+                isExpirationDateChecked: false,
+                isPriorityChecked: false
+            },
+            {
+                title: "no priority & expiration date.",
+                content: "This is no priority & no expiration date.",
+                priority: -1,
+                id: 5,
+                expirationDate: -1,
+                dateCreated: new Date().getTime(),
+                isExpirationNotified: false,
+                isExpirationDateChecked: false,
+                isPriorityChecked: false
+            },
         ]
     };
 
