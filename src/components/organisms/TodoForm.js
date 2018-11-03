@@ -134,10 +134,7 @@ class TodoForm extends Component {
     }
 
     onDeleteButtonClick() {
-        const {
-            onDeleteTodo,
-            updateId
-        } = this.props;
+        const { onDeleteTodo, updateId } = this.props;
         onDeleteTodo(parseInt(updateId));
     }
 

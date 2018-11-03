@@ -7,6 +7,7 @@ const Wrapper = styled.ul`
   display : flex;
   flex-direction : column;
   width : 100%;
+  min-width : 40rem;
   margin-bottom : 2rem;
 `;
 
