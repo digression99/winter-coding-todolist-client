@@ -53,24 +53,23 @@ class TodoForm extends Component {
 
     constructor(props) {
         super(props);
-        const {
-            title,
-            content,
-            priority,
-            expirationDate,
-            isCompleted,
-            isExpirationNotified
-        } = this.props;
 
         this.state = {
-            title : title || "",
-            content : content || "",
-            priority : (priority && priority !== -1 && priority) || 1,
-            expirationDate : (expirationDate !== -1 && moment(expirationDate).format('YYYY-MM-DDTHH:mm')) || moment().format('YYYY-MM-DDTHH:mm'),
-            isExpirationDateChecked : (expirationDate && expirationDate !== -1 && true) || false,
-            isPriorityChecked: (priority && priority !== -1 && true) || false,
-            isCompleted : isCompleted || false,
-            isExpirationNotified : isExpirationNotified || false
+            title : "",
+            content : "",
+            priority : 1,
+            expirationDate : moment(),
+            isExpirationDateChecked : false,
+            isPriorityChecked : false,
+            isCompleted : false,
+            isExpirationNotified : false
+        };
+
+        this.state = {
+            ...this.state,
+            ...this.props,
+            priority : this.props.priority || this.state.priority,
+            expirationDate : moment(this.props.expirationDate || this.state.expirationDate).format('YYYY-MM-DDTHH:mm')
         };
     }
     validate() {
@@ -85,22 +84,17 @@ class TodoForm extends Component {
             const expDateTime = moment(expirationDate).valueOf();
             const nowDate = moment().valueOf();
             if (expDateTime - nowDate < 0) {
-                console.log('expiration date : ', expDateTime);
                 error.expirationDate = "You can't set expiration date to past.";
             }
         }
         return error;
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     console.log('form state : ', this.state);
-    // }
-
     handleChange(name) {
         return e => {
             let val = e.target.value || e.target.checked;
 
-            if (val === undefined) {
+            if (val === undefined || val === null) {
                 val = "";
             }
             this.setState({[name]: val});
@@ -119,8 +113,7 @@ class TodoForm extends Component {
                 isExpirationDateChecked,
                 isPriorityChecked,
                 priority,
-                expirationDate,
-                isCompleted
+                expirationDate
             } = this.state;
 
             const {
@@ -128,13 +121,14 @@ class TodoForm extends Component {
                 updateId
             } = this.props;
 
-            const expDate = (isExpirationDateChecked && moment(expirationDate).valueOf()) || -1;
-            const prty = (isPriorityChecked && priority) || -1;
+            const expDate = (isExpirationDateChecked && moment(expirationDate).valueOf()) || null;
+            const prty = (isPriorityChecked && priority) || null;
 
             onSubmit({
                 ...this.state,
                 expirationDate: expDate,
-                priority : prty
+                priority : prty,
+                isExpirationNotified: !(isExpirationDateChecked === true)
             }, parseInt(updateId));
         }
     }

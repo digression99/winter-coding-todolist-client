@@ -5,30 +5,33 @@ const PageTemplate = styled.div`
   display : flex;
   flex-direction : column;
   width : inherit;
-  height : 100%;
+  min-height : 100vh;
 `;
 
 const HeaderTemplate = styled.div`
   flex : 2 0 auto;
-  min-height : 7rem;
+  max-height : 7rem;
   display : flex;
   justify-content : center;
   align-items : center;
 `;
 
 const FooterTemplate = styled.div`
+  display : flex;
+  flex-direction : column;
+  justify-content : flex-end;
   flex : 2 0 auto;
   min-height : 5rem;
+  bottom : 0;
 `;
 
 const ContentTemplate = styled.div`
   position : relative;
-  flex : 8 0 auto;
+  flex : auto;
   min-height : 40rem;
   width : 80%;
   max-width : 800px;
   margin : 0 auto;
-  height : 100%;
 `;
 
 export default ({ header, footer, content }) => {

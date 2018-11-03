@@ -1,6 +1,7 @@
 
+const ASYNC_DELAY = 200;
 
-const todos = [
+let todos = [
     {
         title: "priority one.",
         content: "this is priority one.",
@@ -11,7 +12,7 @@ const todos = [
         dateCreated: new Date().getTime(),
         isExpirationNotified: false,
         isExpirationDateChecked: false,
-        isPriorityChecked: false
+        isPriorityChecked: true
     },
     {
         title: "priority two",
@@ -22,8 +23,8 @@ const todos = [
         expirationDate: new Date().getTime() + 10000,
         dateCreated: new Date().getTime(),
         isExpirationNotified: false,
-        isExpirationDateChecked: false,
-        isPriorityChecked: false
+        isExpirationDateChecked: true,
+        isPriorityChecked: true
     },
     {
         title: "priority three",
@@ -34,28 +35,28 @@ const todos = [
         expirationDate: new Date().getTime() + 20000,
         dateCreated: new Date().getTime(),
         isExpirationNotified: false,
-        isExpirationDateChecked: false,
-        isPriorityChecked: false
+        isExpirationDateChecked: true,
+        isPriorityChecked: true
     },
     {
         title: "no priority",
         content: "This is no priority",
-        priority: -1,
+        priority: null,
         isCompleted : false,
         id: 4,
-        expirationDate: new Date().getTime() + 20000,
+        expirationDate: new Date().getTime() + 23000,
         dateCreated: new Date().getTime(),
         isExpirationNotified: false,
-        isExpirationDateChecked: false,
+        isExpirationDateChecked: true,
         isPriorityChecked: false
     },
     {
         title: "no priority & expiration date.",
         content: "This is no priority & no expiration date.",
-        priority: -1,
+        priority: null,
         isCompleted : false,
         id: 5,
-        expirationDate: -1,
+        expirationDate: null,
         dateCreated: new Date().getTime(),
         isExpirationNotified: false,
         isExpirationDateChecked: false,
@@ -64,8 +65,44 @@ const todos = [
 ];
 
 export const fetchTodos = () => new Promise((resolve, reject) => {
-
     setTimeout(() => {
         resolve(todos);
-    }, 1000);
+    }, ASYNC_DELAY);
+});
+
+export const updateTodo = todo => new Promise((resolve, reject) => {
+    setTimeout(() => {
+        let updateIdx = -1;
+        todos.map((item, idx) => {
+            if (item.id === todo.id) {
+                updateIdx = idx;
+            }
+        });
+
+        if (updateIdx === -1) {
+            reject("todo not found.");
+            return;
+        }
+
+        todos = [...todos.slice(0, updateIdx),
+            todo,
+            ...todos.slice(updateIdx + 1)
+        ];
+
+        resolve(todos);
+    }, ASYNC_DELAY);
+});
+
+export const insertTodo = todo => new Promise((resolve, reject) => {
+    setTimeout(() => {
+        todos = [...todos, todo];
+        resolve(todos);
+    }, ASYNC_DELAY);
+});
+
+export const deleteTodo = id => new Promise((resolve, reject) => {
+    setTimeout(() => {
+        todos = todos.filter(todo => todo.id !== id);
+        resolve(todos);
+    }, ASYNC_DELAY);
 });

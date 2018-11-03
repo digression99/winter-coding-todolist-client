@@ -97,24 +97,24 @@ const TodoLink = styled(Link)`
 class TodoItem extends Component {
 
     state = {
-        expireTimer : -1
+        expireTimer : null,
+        expirationString : ""
     };
 
     removeTimer() {
-        if (this.state.expireTimer !== -1) {
+        if (this.state.expireTimer) {
             window.clearInterval(this.state.expireTimer);
         }
     }
 
-    checkTimeExpired() {
+    async checkTimeExpired() {
         const { expirationDate, isCompleted, isExpirationNotified, onTodoNotification, id, title } = this.props;
-
         const time =  expirationDate - new Date().getTime();
 
         if (time < 0) {
             if (isCompleted === false && isExpirationNotified === false) {
                 toastMessage(`\"${title}\" has passed expiration time!`);
-                onTodoNotification(id);
+                await onTodoNotification(id);
             }
             this.removeTimer();
         }
@@ -125,23 +125,19 @@ class TodoItem extends Component {
     }
 
     componentDidMount() {
-        console.log('component did mount.');
-        console.log('title : ', this.props.title);
-        console.log(this.props.expirationDate);
-
-        if (this.props.expirationDate !== -1) {
+        if (this.props.expirationDate !== null) {
             this.setState({
                 expireTimer : setInterval(() => this.checkTimeExpired(), 1000)
             });
         }
     }
 
-    handleCheckboxChange(id) {
-        this.props.onCompleteCheckClick(id);
+    async handleCheckboxChange(id) {
+        await this.props.onCompleteCheckClick(id);
     }
 
     renderExpirationDate(date) {
-        return date === -1 ? "Do it now!" : moment(date).fromNow();
+        return date === null ? "Do it now!" : moment(date).fromNow();
     }
 
     render() {

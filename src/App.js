@@ -5,7 +5,12 @@ import Toast from './Toast';
 import GlobalStyle from './globalStyles';
 import Routes from './Routes';
 
-import { fetchTodos } from './lib/api';
+import {
+    fetchTodos,
+    insertTodo,
+    updateTodo,
+    deleteTodo
+} from './lib/api';
 
 class App extends Component {
 
@@ -18,45 +23,33 @@ class App extends Component {
         this.setState({ todos : fetchedTodos });
     }
 
-    onCompleteCheckClick(id) {
-        const newState = this.state.todos.map(todo => {
-            if (todo.id === id) {
-                return {
-                    ...todo,
-                    isCompleted : !todo.isCompleted
-                }
-            }
-            return todo;
-        });
+    async onCompleteCheckClick(id) {
+        const todo = this.state.todos.filter(todo => todo.id === id)[0];
+        todo.isCompleted = !todo.isCompleted;
 
-        this.setState({ todos : newState });
-    }
-
-    onTodoNotification(id) {
-        console.log('on todo notification called!');
-
-
-        const newState = this.state.todos.map(todo => {
-            if (todo.id === id) {
-                return {
-                    ...todo,
-                    isExpirationNotified: true
-                }
-            }
-            return todo;
-        });
-        this.setState({
-            todos: newState
-        })
-    }
-
-    onDeleteTodo(id) {
-        const newState = this.state.todos.filter(todo => todo.id !== id);
+        const newState = await updateTodo(todo);
         this.setState({ todos: newState });
+    }
+
+    async onTodoNotification(id) {
+        const todo = this.state.todos.filter(todo => todo.id === id)[0];
+        todo.isExpirationNotified = true;
+        todo.isExpirationDateChecked = false;
+        console.log('noti todo : ', todo);
+
+        const newState = await updateTodo(todo);
+        console.log('new state : ', newState);
+        this.setState({ todos: newState });
+    }
+
+    async onDeleteTodo(id) {
+        const newState = await deleteTodo(id);
+        this.setState({ todos: newState });
+
         this.props.history.push('/');
     }
 
-    onCreateFormSubmit(formData) {
+    async onCreateFormSubmit(formData) {
         const newTodo = {
             ...formData,
             id : this.state.todos.length + 1,
@@ -65,29 +58,17 @@ class App extends Component {
             priority: formData.isPriorityChecked ? formData.priority : -1
         };
 
-        this.setState((prevState) => ({ todos: [...prevState.todos, newTodo] }));
+        const newState = await insertTodo(newTodo);
+        this.setState(() => ({ todos : newState }));
+
         this.props.history.push('/');
     }
 
-    onEditFormSubmit(formData, updateId) {
-        console.log('form data received : ', formData);
-        console.log('update id : ', updateId);
-        const {todos} = this.state;
-        const newTodo = {...formData, id: parseInt(updateId)};
+    async onEditFormSubmit(formData, updateId) {
+        const todo = {...formData, id: parseInt(updateId)};
 
-        let updateIdx = -1;
-        todos.map((todo, idx) => {
-            if (todo.id === parseInt(updateId)) {
-                updateIdx = idx;
-            }
-        });
-
-        this.setState({
-            todos: [...todos.slice(0, updateIdx),
-                newTodo,
-                ...todos.slice(updateIdx + 1)
-            ]
-        });
+        const newState = await updateTodo(todo);
+        this.setState(() => ({ todos : newState }));
 
         this.props.history.push('/');
     }
