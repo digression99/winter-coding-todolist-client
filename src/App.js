@@ -54,8 +54,8 @@ class App extends Component {
             ...formData,
             id : this.state.todos.length + 1,
             dateCreated: new Date().getTime(),
-            expirationDate: formData.isExpirationDateChecked ? formData.expirationDate : -1,
-            priority: formData.isPriorityChecked ? formData.priority : -1
+            // expirationDate: formData.isExpirationDateChecked ? formData.expirationDate : null,
+            // priority: formData.isPriorityChecked ? formData.priority : null
         };
 
         const newState = await insertTodo(newTodo);

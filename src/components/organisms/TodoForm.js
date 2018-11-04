@@ -121,7 +121,7 @@ class TodoForm extends Component {
                 updateId
             } = this.props;
 
-            const expDate = (isExpirationDateChecked && moment(expirationDate).valueOf()) || null;
+            const expDate = isExpirationDateChecked ? moment(expirationDate).valueOf() : undefined;
             const prty = (isPriorityChecked && priority) || null;
 
             onSubmit({
