@@ -24,7 +24,7 @@ const TodoList = ({
                 <TodoItem
                     onTodoNotification={onTodoNotification}
                     onCompleteCheckClick={onCompleteCheckClick}
-                    key={todo.id}
+                    key={todo._id}
                     {...todo}
                 />)
         )}

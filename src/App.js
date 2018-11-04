@@ -19,57 +19,50 @@ class App extends Component {
     };
 
     async componentDidMount() {
+        window.todos = this.state.todos;
         const fetchedTodos = await fetchTodos();
         this.setState({ todos : fetchedTodos });
     }
 
     async onCompleteCheckClick(id) {
-        const todo = this.state.todos.filter(todo => todo.id === id)[0];
+        const todo = this.state.todos.filter(todo => todo._id === id)[0];
         todo.isCompleted = !todo.isCompleted;
 
-        const newState = await updateTodo(todo);
-        this.setState({ todos: newState });
+        await updateTodo(todo);
+        const fetchedTodos = await fetchTodos();
+        this.setState({ todos : fetchedTodos });
     }
 
     async onTodoNotification(id) {
-        const todo = this.state.todos.filter(todo => todo.id === id)[0];
+        const todo = this.state.todos.filter(todo => todo._id === id)[0];
         todo.isExpirationNotified = true;
         todo.isExpirationDateChecked = false;
-        console.log('noti todo : ', todo);
 
-        const newState = await updateTodo(todo);
-        console.log('new state : ', newState);
-        this.setState({ todos: newState });
+        await updateTodo(todo);
+        const fetchedTodos = await fetchTodos();
+        this.setState({ todos : fetchedTodos });
     }
 
     async onDeleteTodo(id) {
-        const newState = await deleteTodo(id);
-        this.setState({ todos: newState });
+        await deleteTodo(id);
 
+        const fetchedTodos = await fetchTodos();
+        this.setState({ todos : fetchedTodos });
         this.props.history.push('/');
     }
 
     async onCreateFormSubmit(formData) {
-        const newTodo = {
-            ...formData,
-            id : this.state.todos.length + 1,
-            dateCreated: new Date().getTime(),
-            // expirationDate: formData.isExpirationDateChecked ? formData.expirationDate : null,
-            // priority: formData.isPriorityChecked ? formData.priority : null
-        };
+        await insertTodo(formData);
 
-        const newState = await insertTodo(newTodo);
-        this.setState(() => ({ todos : newState }));
-
+        const fetchedTodos = await fetchTodos();
+        this.setState({ todos : fetchedTodos });
         this.props.history.push('/');
     }
 
     async onEditFormSubmit(formData, updateId) {
-        const todo = {...formData, id: parseInt(updateId)};
-
-        const newState = await updateTodo(todo);
-        this.setState(() => ({ todos : newState }));
-
+        await updateTodo(formData);
+        const fetchedTodos = await fetchTodos();
+        this.setState({ todos : fetchedTodos });
         this.props.history.push('/');
     }
 

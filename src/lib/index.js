@@ -17,4 +17,4 @@ export const toastMessage = msg => {
 };
 
 export const getTodo = (todos, id) =>
-    todos.filter(todo => todo.id === parseInt(id))[0];
+    todos.filter(todo => todo._id === id)[0];

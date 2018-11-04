@@ -95,7 +95,6 @@ const TodoLink = styled(Link)`
 `;
 
 class TodoItem extends Component {
-
     state = {
         expireTimer : null,
         expirationString : ""
@@ -108,13 +107,13 @@ class TodoItem extends Component {
     }
 
     async checkTimeExpired() {
-        const { expirationDate, isCompleted, isExpirationNotified, onTodoNotification, id, title } = this.props;
-        const time =  expirationDate - new Date().getTime();
+        const { expirationDate, isCompleted, isExpirationNotified, onTodoNotification, _id, title } = this.props;
+        const time =  moment(expirationDate).valueOf() - new Date().getTime();
 
         if (time < 0) {
             if (isCompleted === false && isExpirationNotified === false) {
                 toastMessage(`\"${title}\" has passed expiration time!`);
-                await onTodoNotification(id);
+                await onTodoNotification(_id);
             }
             this.removeTimer();
         }
@@ -147,7 +146,7 @@ class TodoItem extends Component {
             content,
             priority,
             expirationDate,
-            id,
+            _id,
             isCompleted,
             classes
         } = this.props;
@@ -159,12 +158,12 @@ class TodoItem extends Component {
                         <Checkbox
                             checked={isCompleted}
                             color="primary"
-                            onChange={() => this.handleCheckboxChange(parseInt(id))}
+                            onChange={() => this.handleCheckboxChange(_id)}
                             className={`${classes.completeCheckbox}`}
                         />
                         <ButtonBase
                             component={TodoLink}
-                            to={`/edit/${id}`}
+                            to={`/edit/${_id}`}
                             className={`${classes.buttonBase}`}
                         >
                             <TodoContent

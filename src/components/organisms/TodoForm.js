@@ -129,13 +129,13 @@ class TodoForm extends Component {
                 expirationDate: expDate,
                 priority : prty,
                 isExpirationNotified: !(isExpirationDateChecked === true)
-            }, parseInt(updateId));
+            }, updateId);
         }
     }
 
     onDeleteButtonClick() {
         const { onDeleteTodo, updateId } = this.props;
-        onDeleteTodo(parseInt(updateId));
+        onDeleteTodo(updateId);
     }
 
     render() {
